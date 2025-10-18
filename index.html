@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STEM Educational Technology Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4, #a1c4fd, #c2e9fb);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+    }
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    /* Slide-down animation */
+    .slide-down {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.6s ease, padding 0.6s ease, margin 0.6s ease;
+    }
+    .slide-down.show {
+      max-height: 500px;
+      padding: 20px;
+      margin: 20px auto;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex; align-items: center;
+      padding: 10px 20px;
+      background: linear-gradient(90deg, red, green, blue, yellow);
+      color: white; font-weight: bold; font-size: 18px;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .navbar img { height: 40px; margin-right: 10px; }
+    .navbar a {
+      color: white; text-decoration: none; margin-left: 15px;
+    }
+    .navbar a:hover { text-decoration: underline; }
+
+    /* Containers */
+    .quiz-container, #instructions-container {
+      max-width: 700px; margin: 40px auto; padding: 20px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+
+    #question {
+      font-family: 'Fredoka One', cursive;
+      font-size: 22px;
+      background: linear-gradient(90deg, #ff6a6a, #f9d423, #6a11cb, #00d2ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    #options label { display: block; margin: 8px 0; cursor: pointer; }
+    #options label:hover {
+      transform: scale(1.05);
+      background-color: #fff7e6;
+      border-radius: 8px;
+      padding: 3px;
+      transition: all 0.2s ease;
+    }
+    #options input[type="radio"] { margin-right: 10px; }
+
+    #progress-container {
+      position: relative; width: 100%; height: 20px;
+      background: #e0e0e0; border-radius: 10px;
+      overflow: hidden; margin-top: 20px;
+    }
+    #progress-bar {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, red, orange, yellow, green, blue, purple);
+      background-size: 600% 100%;
+      border-radius: 10px;
+      transition: width 0.5s ease;
+      animation: rainbowBG 5s linear infinite;
+    }
+    @keyframes rainbowBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    #progress-text { position: absolute; right: 10px; top: -25px; font-weight: bold; }
+    #score-tracker { margin-top: 10px; text-align: center; font-weight: bold; }
+    #correct-count { color: green; margin-right: 15px; }
+    #wrong-count { color: red; }
+    #hint { font-style: italic; color: #666; margin-top: 10px; }
+    #feedback { margin-top: 10px; font-weight: bold; text-align: center; }
+
+    button { cursor: pointer; }
+    #hint-btn:hover { animation: glow 1s ease-in-out infinite alternate; }
+    @keyframes glow { 0% { box-shadow: 0 0 5px #ffd966; } 100% { box-shadow: 0 0 20px #ffd966; } }
+
+    footer {
+      text-align: center; margin-top: 40px; padding: 15px;
+      background: rgba(255,255,255,0.8);
+      border-radius: 10px;
+      font-weight: bold; color: #333;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+      
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <img src="stemlogo.jpg" alt="Logo"> STEM Educational Technology Quiz
+    <div class="nav-links" style="margin-left: auto;">
+      <a href="#" id="home-link">Home</a>
+      <a href="#" id="about-link">About</a>
+      <a href="#" id="contact-link">Contact</a>
+    </div>
+  </div>
+
+  <!-- About Section -->
+  <div id="about-section" class="slide-down" style="max-width: 700px; background: #d0f0ff; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+      
+    <h2>About This Webpage</h2>
+  <p>
+    This interactive web page is designed as a <strong>STEM Educational Quiz</strong> that helps learners test their knowledge in a fun and engaging way. 
+    It was created using <strong>HTML, CSS, and JavaScript</strong> — three core web technologies that work together to bring structure, design, and interactivity to a webpage.
+  </p>
+
+  <h3>🔹 Structure (HTML)</h3>
+  <p>
+    The entire webpage is built using <strong>HTML5</strong> for structure. 
+    It includes a <strong>navigation bar</strong> with links to the Home, About, and Contact sections; 
+    a <strong>quiz container</strong> for displaying questions and options; 
+    and <strong>instruction</strong> and <strong>score sections</strong> to guide users and show results.
+  </p>
+
+  <h3>🔹 Styling (CSS)</h3>
+  <p>
+    The page uses <strong>CSS3</strong> for styling, ensuring a modern, clean, and responsive layout. 
+    Important features include:
+  </p>
+  <ul>
+    <li>Soft background colors for better readability.</li>
+    <li>Rounded buttons with hover effects for better user interaction.</li>
+    <li>Smooth <strong>slide-down animations</strong> for the About and Contact sections using CSS transitions.</li>
+    <li>Responsive design that adapts to different screen sizes.</li>
+  </ul>
+
+  <h3>🔹 Interactivity (JavaScript)</h3>
+  <p>
+    The core functionality is written in <strong>JavaScript (ES6)</strong>. 
+    It dynamically loads quiz questions, checks answers, keeps track of scores, and displays the final results. 
+    JavaScript is also used to control the visibility of different sections:
+  </p>
+  <ul>
+    <li>Clicking <strong>About</strong> hides the Home/Quiz sections and shows the About content.</li>
+    <li>Clicking <strong>Contact</strong> hides other sections and shows the contact form.</li>
+    <li>Clicking <strong>Home</strong> brings users back to the main quiz interface.</li>
+    <li>At the end of the quiz, the <strong>final score</strong> is displayed dynamically.</li>
+  </ul>
+
+  <h3>🔹 Formatting & Design Principles</h3>
+  <p>
+    The design follows key web design principles such as alignment, contrast, balance, and readability.
+    Font sizes and colors were carefully chosen for accessibility and ease of understanding.
+    Buttons and containers use <strong>box shadows</strong> and <strong>border-radius</strong> for a modern look.
+  </p>
+
+  <h3>🔹 Learning Value</h3>
+  <p>
+    The project demonstrates how basic web technologies can be combined to create an educational tool. 
+    It reinforces concepts of <strong>DOM manipulation, event handling, conditional logic, and dynamic rendering</strong> using JavaScript.
+    Overall, it’s a great example of how technology can support interactive learning in STEM education.
+  </p>
+  </div>
+
+  <!-- Contact Section -->
+  <div id="contact-section" class="slide-down" style="max-width: 700px; background: #ffe6f7; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+    <h2>Contact</h2>
+    <p>📧 <strong>Email:</strong> maryam.aslam@example.com</p>
+    <p>🏫 <strong>Institution:</strong> University of Florida, College of Education</p>
+    <p>💬 Feel free to reach out for feedback or collaboration opportunities!</p>
+  </div>
+
+  <!-- Instructions -->
+  <div id="instructions-container">
+    <h2>Instructions for Quiz</h2>
+    <ul>
+      <li>This quiz contains 10 multiple-choice questions related to STEM and Educational Technology.</li>
+      <li>Select the correct answer by clicking on the radio button.</li>
+      <li>You can use the 💡 Hint button (maximum 2 hints) if needed.</li>
+      <li>Track your progress with the progress bar at the bottom.</li>
+      <li>The quiz ends automatically if you answer all questions or make 3 wrong answers.</li>
+      <li>Use ⬅️ Previous and ➡️ Next buttons to navigate.</li>
+      <li>Try to answer each question carefully before moving on.</li>
+    </ul>
+    <div style="text-align: center; margin-top: 15px;">
+      <button id="start-quiz-btn" style="padding: 10px 20px; border-radius: 8px; background-color: #28a745; color: white; border: none; font-size: 16px;">Start Quiz</button>
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="quiz-container" style="display: none;">
+    <h2 id="question">Question will appear here</h2>
+    <p id="hint"></p>
+    <div id="options"></div>
+    <div id="feedback"></div>
+    <div id="progress-container">
+      <div id="progress-bar"></div>
+      <span id="progress-text">0 of 10</span>
+    </div>
+    <div id="score-tracker">
+      <span id="correct-count">Correct: 0</span>
+      <span id="wrong-count">Wrong: 0</span>
+    </div>
+    <div id="navigation-buttons" style="margin-top: 15px; display: flex; justify-content: space-between; align-items: center;">
+      <button id="prev-btn" style="background: none; border: none;"><img src="prev.PNG" alt="Previous" style="height: 30px;"></button>
+      <button id="hint-btn" style="padding: 5px 15px; border-radius: 8px; background-color: #ffd966; border: none;">💡 Hint</button>
+      <button id="next-btn" style="background: none; border: none;"><img src="next.PNG" alt="Next" style="height: 30px;"></button>
+    </div>
+  </div>
+
+  <script src="popsolution.js"></script>
+
+  <footer>
+    🌸 Web page created by Maryam Aslam 🌸 <br>
+    <a href="https://education.ufl.edu/" target="_blank" style="color: #0077cc; text-decoration: none; font-weight: normal;">
+      University of Florida College of Education
+    </a>
+  </footer>
+</body>
+</html>
