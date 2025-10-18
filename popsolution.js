@@ -70,18 +70,38 @@ const quizData = [
     hint: "Think of points, badges, and levels." }
 ];
 
+// Initialize visible state exactly as you expect:
+// Home (instructions) visible, quiz hidden, about & contact hidden.
+instructionsContainer.style.display = "block";
+quizContainer.style.display = "none";
+aboutSection.classList.remove("show");
+aboutSection.style.display = "none";
+contactSection.classList.remove("show");
+contactSection.style.display = "none";
+
 // 🌟 Start Quiz
 startBtn.addEventListener("click", () => {
   instructionsContainer.style.display = "none";
   quizContainer.style.display = "block";
+  // hide about and contact completely (remove .show and hide)
   aboutSection.classList.remove("show");
+  aboutSection.style.display = "none";
   contactSection.classList.remove("show");
+  contactSection.style.display = "none";
+  // reset counts for new quiz if you want (keeps previous behaviour)
+  currentQuestion = 0;
+  correctCount = 0;
+  wrongCount = 0;
+  answeredCount = 0;
+  hintsUsed = 0;
+  updateScore();
   loadQuestion();
 });
 
 // 🌟 Show Hint
 hintBtn.addEventListener("click", () => {
   const q = quizData[currentQuestion];
+  if (!q) return;
   if (hintsUsed < 2) {
     hintElement.textContent = q.hint;
     hintsUsed++;
@@ -191,25 +211,41 @@ nextBtn.addEventListener("click", () => {
   if (currentQuestion < quizData.length - 1) { currentQuestion++; loadQuestion(); }
 });
 
-// 🌟 Navbar Links
+// 🌟 Navbar Links — show only one at a time, using your original .slide-down + .show
 aboutLink.addEventListener("click", (e) => {
   e.preventDefault();
+  // hide home and quiz
   instructionsContainer.style.display = "none";
   quizContainer.style.display = "none";
+  // hide contact
   contactSection.classList.remove("show");
-  aboutSection.classList.toggle("show");
+  contactSection.style.display = "none";
+  // show about (use .show to trigger slide-down style)
+  aboutSection.classList.add("show");
+  aboutSection.style.display = "block";
 });
+
 contactLink.addEventListener("click", (e) => {
   e.preventDefault();
+  // hide home and quiz
   instructionsContainer.style.display = "none";
   quizContainer.style.display = "none";
+  // hide about
   aboutSection.classList.remove("show");
-  contactSection.classList.toggle("show");
+  aboutSection.style.display = "none";
+  // show contact
+  contactSection.classList.add("show");
+  contactSection.style.display = "block";
 });
+
 homeLink.addEventListener("click", (e) => {
   e.preventDefault();
+  // hide about & contact
   aboutSection.classList.remove("show");
+  aboutSection.style.display = "none";
   contactSection.classList.remove("show");
+  contactSection.style.display = "none";
+  // show home (instructions) and hide quiz
   instructionsContainer.style.display = "block";
   quizContainer.style.display = "none";
 });
