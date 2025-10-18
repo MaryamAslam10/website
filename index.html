@@ -24,11 +24,15 @@
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.6s ease, padding 0.6s ease, margin 0.6s ease;
+      margin: 20px auto; /* centers horizontally */
+      padding: 0 20px;   /* default padding 0 when hidden, keep layout */
+      box-sizing: border-box;
     }
     .slide-down.show {
       max-height: 500px;
       padding: 20px;
       margin: 20px auto;
+      overflow-y: auto; /* allow internal scroll when shown */
     }
 
     /* Navbar */
@@ -108,7 +112,11 @@
       font-weight: bold; color: #333;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-      
+
+    /* Make About and Contact hidden initially (they use slide-down and .show to appear) */
+    #about-section { max-width: 700px; background: #d0f0ff; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    #contact-section { max-width: 700px; background: #ffe6f7; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    /* .slide-down already controls max-height and overflow when .show is present */
   </style>
 </head>
 <body>
@@ -125,64 +133,182 @@
   <!-- About Section -->
   <div id="about-section" class="slide-down" style="max-width: 700px; background: #d0f0ff; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
       
-    <h2>About This Webpage</h2>
-  <p>
-    This interactive web page is designed as a <strong>STEM Educational Quiz</strong> that helps learners test their knowledge in a fun and engaging way. 
-    It was created using <strong>HTML, CSS, and JavaScript</strong> — three core web technologies that work together to bring structure, design, and interactivity to a webpage.
-  </p>
+<h2>About This Quiz Project (Complete Update Log)</h2>
 
-  <h3>🔹 Structure (HTML)</h3>
-  <p>
-    The entire webpage is built using <strong>HTML5</strong> for structure. 
-    It includes a <strong>navigation bar</strong> with links to the Home, About, and Contact sections; 
-    a <strong>quiz container</strong> for displaying questions and options; 
-    and <strong>instruction</strong> and <strong>score sections</strong> to guide users and show results.
-  </p>
+<p>
+This interactive quiz has been modernized from an older table-based pop quiz into a polished,
+responsive learning tool built with <strong>HTML5</strong>, <strong>CSS3</strong>, and modern
+<strong>JavaScript (ES6)</strong>. The list below documents every notable change and new feature
+that was added to the HTML, CSS, and JavaScript files so you can paste it directly and display
+a full changelog inside the About section.
+</p>
 
-  <h3>🔹 Styling (CSS)</h3>
-  <p>
-    The page uses <strong>CSS3</strong> for styling, ensuring a modern, clean, and responsive layout. 
-    Important features include:
-  </p>
-  <ul>
-    <li>Soft background colors for better readability.</li>
-    <li>Rounded buttons with hover effects for better user interaction.</li>
-    <li>Smooth <strong>slide-down animations</strong> for the About and Contact sections using CSS transitions.</li>
-    <li>Responsive design that adapts to different screen sizes.</li>
-  </ul>
+<hr>
 
-  <h3>🔹 Interactivity (JavaScript)</h3>
-  <p>
-    The core functionality is written in <strong>JavaScript (ES6)</strong>. 
-    It dynamically loads quiz questions, checks answers, keeps track of scores, and displays the final results. 
-    JavaScript is also used to control the visibility of different sections:
-  </p>
-  <ul>
-    <li>Clicking <strong>About</strong> hides the Home/Quiz sections and shows the About content.</li>
-    <li>Clicking <strong>Contact</strong> hides other sections and shows the contact form.</li>
-    <li>Clicking <strong>Home</strong> brings users back to the main quiz interface.</li>
-    <li>At the end of the quiz, the <strong>final score</strong> is displayed dynamically.</li>
-  </ul>
+<h3>1. High-level summary</h3>
+<ul>
+  <li>Converted the old table/inline-layout quiz into a modular, div-based interface (Home / Quiz / About / Contact).</li>
+  <li>Improved visuals (gradients, shadows, rounded corners), added animations, and responsive layout for all devices.</li>
+  <li>Reimplemented quiz logic using a single <code>quizData</code> array/object structure and modern JS for clarity and maintainability.</li>
+  <li>Added UX features: hints, progress bar, live score counters, confetti on correct answers, and auto-advance behavior.</li>
+</ul>
 
-  <h3>🔹 Formatting & Design Principles</h3>
-  <p>
-    The design follows key web design principles such as alignment, contrast, balance, and readability.
-    Font sizes and colors were carefully chosen for accessibility and ease of understanding.
-    Buttons and containers use <strong>box shadows</strong> and <strong>border-radius</strong> for a modern look.
-  </p>
+<hr>
 
-  <h3>🔹 Learning Value</h3>
-  <p>
-    The project demonstrates how basic web technologies can be combined to create an educational tool. 
-    It reinforces concepts of <strong>DOM manipulation, event handling, conditional logic, and dynamic rendering</strong> using JavaScript.
-    Overall, it’s a great example of how technology can support interactive learning in STEM education.
-  </p>
-  </div>
+<h3>2. Exact HTML changes (what was added or reorganized)</h3>
+<ul>
+  <li>Replaced table-dominated structure with semantic containers such as <code>&lt;div class="quiz-container"&gt;</code>, <code>#instructions-container</code>, <code>#about-section</code>, and <code>#contact-section</code> to separate concerns and make DOM manipulation straightforward.</li>
+  <li>Added a top navigation bar (<code>.navbar</code>) with clickable links: Home, About, Contact allowing single-page section switching.</li>
+  <li>Introduced explicit markup for progress, hints, and feedback areas:
+    <ul>
+      <li><code>&lt;div id="progress-container"&gt;</code> with <code>#progress-bar</code> and <code>#progress-text</code></li>
+      <li><code>&lt;p id="hint"&gt;</code> for displaying hints</li>
+      <li><code>&lt;div id="feedback"&gt;</code> for instant feedback messages</li>
+    </ul>
+  </li>
+  <li>Added navigation controls for the quiz: Previous / Hint / Next buttons grouped inside a navigation container.</li>
+  <li>Moved footer content to the bottom while preserving your original attribution (Maryam Aslam — University of Florida College of Education).</li>
+</ul>
+
+<hr>
+
+<h3>3. Exact CSS changes (visual & layout improvements)</h3>
+<ul>
+  <li><strong>Global background and theme</strong>
+    <ul>
+      <li>Applied a subtle animated gradient background to the body for a modern, friendly feel.</li>
+    </ul>
+  </li>
+  <li><strong>Card styling</strong>
+    <ul>
+      <li>All main sections use centered cards with <code>max-width</code>, <code>border-radius</code>, and <code>box-shadow</code> for depth and readability.</li>
+    </ul>
+  </li>
+  <li><strong>Progress & visual cues</strong>
+    <ul>
+      <li>Progress bar uses a rainbow animated gradient and smooth transitions for width changes.</li>
+      <li>Interactive hover animations for options and subtle glow on the hint button.</li>
+    </ul>
+  </li>
+  <li><strong>About/Contact scrolling</strong>
+    <ul>
+      <li>About and Contact use <code>max-height</code> and <code>overflow-y: auto</code> so long text scrolls internally without breaking layout.</li>
+      <li>Added <code>scroll-behavior: smooth</code> for pleasant scrolling inside those sections.</li>
+    </ul>
+  </li>
+  <li><strong>Responsive layout</strong>
+    <ul>
+      <li>Containers centered with flexible widths, ensuring the design scales on mobile and tablet screens.</li>
+    </ul>
+  </li>
+</ul>
+
+<hr>
+
+<h3>4. Exact JavaScript changes (logic & interactivity)</h3>
+<ul>
+  <li><strong>Data structure</strong>
+    <ul>
+      <li>Replaced multiple scattered arrays (choice1[], choice2[], etc.) with a single <code>quizData</code> array of objects. Each object contains:
+        <code>{ question, options: [...], answer, hint }</code>. This simplifies adding or editing questions.</li>
+    </ul>
+  </li>
+
+  <li><strong>Functions & behavior</strong>
+    <ul>
+      <li><code>loadQuestion()</code> — renders the current question and options, resets hint feedback, and updates progress & score.</li>
+      <li><code>checkAnswer(selectedOption)</code> — handles user answer checking, updates correct/wrong counters, shows feedback, triggers confetti on correct answers, and auto-advances after a short delay.</li>
+      <li><code>updateProgress()</code> & <code>updateScore()</code> — keep the progress bar and score labels in sync with user actions.</li>
+      <li><code>showConfetti()</code> — a lightweight celebratory animation using emoji particles appended to the DOM for a short time.</li>
+    </ul>
+  </li>
+
+  <li><strong>Hint feature</strong>
+    <ul>
+      <li>Added a Hint button that displays question-specific hints. Hints are limited (two uses per quiz) to keep challenge balance.</li>
+    </ul>
+  </li>
+
+  <li><strong>Navigation & section control</strong>
+    <ul>
+      <li>Home / About / Contact clickable links now show exactly one section at a time. Implementation uses:
+        <code>instructionsContainer.style.display = 'block' / 'none'</code> and toggling a <code>.show</code> class on <code>.slide-down</code> sections to preserve slide animation style.</li>
+    </ul>
+  </li>
+
+  <li><strong>Edge cases & UX</strong>
+    <ul>
+      <li>When the quiz finishes, it displays a “Quiz complete” message including the final score and sets the progress bar to 100%.</li>
+      <li>If the user makes 3 wrong answers, an alert encourages them to retry and the quiz resets (optional behavior).</li>
+      <li>Start Quiz resets counters and begins the quiz cleanly.</li>
+    </ul>
+  </li>
+
+  <li><strong>Modern JS practices</strong>
+    <ul>
+      <li>Used <code>const</code> and <code>let</code> for variable scoping, arrow functions, and cleaner event listener patterns (no <code>eval()</code>), making code more secure and maintainable.</li>
+    </ul>
+  </li>
+</ul>
+
+<hr>
+
+<h3>5. Accessibility & UX improvements</h3>
+<ul>
+  <li>Improved color contrast and larger, readable fonts for clarity.</li>
+  <li>Buttons include text and iconography where appropriate (e.g., previous/next images) for clearer affordances.</li>
+  <li>Predictable placement of hints, feedback, and progress reduces cognitive load for learners.</li>
+  <li>Focusable interactive elements (buttons/links/select) are large enough for touch screens.</li>
+</ul>
+
+<hr>
+
+<h3>6. Per-file change summary</h3>
+
+<p><strong>index.html (or your HTML file)</strong></p>
+<ul>
+  <li>Added: <code>.navbar</code> with Home/About/Contact links.</li>
+  <li>Added: <code>#instructions-container</code>, <code>.quiz-container</code>, <code>#about-section</code>, and <code>#contact-section</code> containers for modular UI.</li>
+  <li>Added: DOM elements for <code>#progress-container</code>, <code>#progress-bar</code>, <code>#progress-text</code>, <code>#hint</code>, and <code>#feedback</code>.</li>
+  <li>Kept: your footer attribution intact.</li>
+</ul>
+
+<p><strong>CSS (inside &lt;style&gt;)</strong></p>
+<ul>
+  <li>Added: animated page background gradient.</li>
+  <li>Added: card styles (rounded corners, box-shadow), hover transitions, and progress bar animation.</li>
+  <li>Added: .slide-down handling with <code>max-height</code> & <code>overflow-y:auto</code> so About/Contact appear via slide animation and scroll internally when content is long.</li>
+  <li>Added: responsive centering rules (margin: 0 auto; max-width).</li>
+</ul>
+
+<p><strong>popsolution.js (or your main JS)</strong></p>
+<ul>
+  <li>Replaced old question/choice arrays with a single <code>quizData</code> array of objects.</li>
+  <li>Added functions: <code>loadQuestion()</code>, <code>checkAnswer()</code>, <code>updateProgress()</code>, <code>updateScore()</code>, <code>showConfetti()</code>.</li>
+  <li>Added Hint usage limit logic and hint display.</li>
+  <li>Controlled section visibility (Home / About / Contact) using event listeners and class toggling so only one section displays at a time.</li>
+</ul>
+
+<hr>
+
+<h3>7. Technologies used</h3>
+<ul>
+  <li>Built with: <strong>HTML5</strong>, <strong>CSS3</strong>, and <strong>Vanilla JavaScript (ES6)</strong>.</li>
+  <li>Fonts: Google Fonts used for decorative headings (<code>Fredoka One</code> as an example).</li>
+  <li>No external frameworks required — everything is lightweight and runs purely in-browser.</li>
+      <li>Code written and tested using <strong>Brackets IDE</strong> for structured editing and live preview.</li>
+  <li>Project uploaded and hosted on <strong>GitHub Pages</strong> as the deployment domain.</li>
+
+</ul>
+
+<hr>
+
+    </div>
 
   <!-- Contact Section -->
   <div id="contact-section" class="slide-down" style="max-width: 700px; background: #ffe6f7; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
     <h2>Contact</h2>
-    <p>📧 <strong>Email:</strong> maryam.aslam@example.com</p>
+    <p>📧 <strong>Email:</strong> m.aslam@ufl.edu</p>
     <p>🏫 <strong>Institution:</strong> University of Florida, College of Education</p>
     <p>💬 Feel free to reach out for feedback or collaboration opportunities!</p>
   </div>
